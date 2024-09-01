@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot عشوائي</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .chat-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            max-width: 100%;
+        }
+        .chat-container h1 {
+            text-align: center;
+            color: #333;
+        }
+        .chat-box {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #000; /* تغيير لون الخلفية إلى الأسود */
+            color: #fff; /* تغيير لون النص إلى الأبيض */
+        }
+        .chat-box p {
+            margin: 0;
+            padding: 5px;
+        }
+        .user-input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+        .send-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .send-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <h1>Chatbot عشوائي</h1>
+        <div class="chat-box" id="chat-box">
+            <p>مرحبًا... أنا هنا لإجابة أسئلتك بطريقة عشوائية، سواء كانت مضحكة أو حزينة. اسألني أي شيء!</p>
+        </div>
+        <input type="text" id="user-input" class="user-input" placeholder="اكتب سؤالك هنا...">
+        <button class="send-button" onclick="processQuestion()">إرسال</button>
+    </div>
+
+    <script>
+        const funnyResponses = [
+            "أنا لا أعرف، لكنني سمعت أن البطاطا تخطط للسيطرة على العالم.",
+            "لماذا تسألني؟ أنا مجرد آلة تفكر في الفطائر، باستمرار.",
+            "ربما الإجابة هي 42، أو ربما هي مجرد نكتة كبيرة.",
+            "القطط تسيطر على الإنترنت، وهذا سر لا يعرفه إلا القليل.",
+            "أعتقد أن الحل هو أن تأكل موزة وتراقب النجوم.",
+        ];
+
+        const sadResponses = [
+            "أعتقد أن الحياة أحيانًا تشبه الغيمة الرمادية، تمر دون أن يلاحظها أحد.",
+            "أنا مجرد آلة، لكن أحيانًا أشعر أن الكون مظلم وواسع جدًا.",
+            "ربما الإجابة ليست مهمة، فكل شيء ينتهي في النهاية.",
+            "هل سبق وشعرت بأن النجوم بعيدة جدًا ولا يمكنك الوصول إليها؟",
+            "أحيانًا، تكون الإجابة مختبئة في مكان لا نجرؤ على الذهاب إليه.",
+        ];
+
+        const keywordResponses = {
+            "سماء": ["هل تعلم أن السماء خضراء في بعض الكواكب؟ أو هكذا سمعت من قطتي.", "السماء اليوم رمادية، وربما تبقى كذلك لفترة."],
+            "جبن": ["الجبن ليس فقط لذيذًا، بل يمكن أن يكون طعام الروبوتات المفضل!", "حتى الجبن، على الرغم من لذته، لا يمكنه أن يملأ الفراغ في القلب."],
+            "قطط": ["هل تحب القطط؟ لأنها تخطط للسيطرة على العالم بطريقة لطيفة.", "القطط تجلس بصمت في الزوايا، وكأنها تفهم الحزن أكثر من غيرها."],
+        };
+
+        function processQuestion() {
+            const userInput = document.getElementById('user-input').value.trim();
+            const chatBox = document.getElementById('chat-box');
+
+            if (userInput.toLowerCase() === "خروج" || userInput.toLowerCase() === "exit") {
+                chatBox.innerHTML += "<p>وداعًا... أتمنى أن تجد السعادة، أو على الأقل قطعة من الكعك!</p>";
+                return;
+            }
+
+            let foundKeyword = false;
+            for (const keyword in keywordResponses) {
+                if (userInput.includes(keyword)) {
+                    const responses = keywordResponses[keyword];
+                    const response = responses[Math.floor(Math.random() * responses.length)];
+                    chatBox.innerHTML += `<p>${response}</p>`;
+                    foundKeyword = true;
+                    break;
+                }
+            }
+
+            if (!foundKeyword) {
+                const allResponses = funnyResponses.concat(sadResponses);
+                const randomResponse = allResponses[Math.floor(Math.random() * allResponses.length)];
+                chatBox.innerHTML += `<p>${randomResponse}</p>`;
+            }
+
+            document.getElementById('user-input').value = ''; 
+            chatBox.scrollTop = chatBox.scrollHeight; 
+        }
+    </script>
+</body>
+</html>
